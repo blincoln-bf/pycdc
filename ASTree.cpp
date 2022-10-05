@@ -1785,9 +1785,11 @@ PycRef<ASTNode> BuildFromCode(PycRef<PycCode> code, PycModule* mod)
                      * a call to append the iter to the list.
                      */
                     if (value.type() == ASTNode::NODE_CALL) {
-                        PycRef<ASTNode> res = value.cast<ASTCall>()->pparams().front();
-
-                        stack.push(new ASTComprehension(res));
+                        auto& pparams = value.cast<ASTCall>()->pparams();
+                        if (!pparams.empty()) {
+                            PycRef<ASTNode> res = pparams.front();
+                            stack.push(new ASTComprehension(res));
+                        }
                     }
                 }
             }
@@ -3182,10 +3184,6 @@ void print_src(PycRef<ASTNode> node, PycModule* mod, int currentDepth, int maxDe
                     if (narg)
                         fputs(", ", pyc_output);
 
-                    int idx = code_src->argCount();
-                    if (code_src->flags() & PycCode::CO_VARARGS) {
-                        idx++;
-                    }
                     fprintf(pyc_output, "**%s", code_src->getVarName(narg++)->value());
                 }
 
