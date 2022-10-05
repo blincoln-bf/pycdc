@@ -1,19 +1,27 @@
-# Decompyle++ 
-***A Python Byte-code Disassembler/Decompiler***
+# Custom fork of Decompyle++ for use in batch scripts
 
-Decompyle++ aims to translate compiled Python byte-code back into valid
-and human-readable Python source code. While other projects have achieved
-this with varied success, Decompyle++ is unique in that it seeks to
-support byte-code from any version of Python.
+This project is a customized fork of [Decompyle++](https://github.com/zrax/pycdc). It works identically to the original, except it supports recursion depth limiting during both loading and rendering data. This prevents it from entering an infinite loop and eventually exhausting available memory.
 
-Decompyle++ includes both a byte-code disassembler (pycdas) and a 
-decompiler (pycdc).
+By default, it limits recursion to a depth of 100, which should hopefully be more than enough for most real code. You can specify a different value by using the `-m <DEPTH>` command-line option, e.g. `-m 10` or `-m 1000`.
 
-As the name implies, Decompyle++ is written in C++.
-If you wish to contribute, please fork us on github at 
-https://github.com/zrax/pycdc
+See the original project for more complete documentation.
 
 ## Building Decompyle++
+
+Quick build instructions for Linux, assuming your are in the `pycdc` directory:
+
+```
+% mkdir ../build
+
+% cmake -S . -B ../build
+
+% cd ../build
+
+% make
+```
+
+Original build instructions:
+
 * Generate a project or makefile with [CMake](http://www.cmake.org) (See CMake's documentation for details)
   * The following options can be passed to CMake to control debug features:
 
@@ -51,6 +59,7 @@ Additional contributions from:
 * Kunal Parmar
 * Olivier Iffrig
 * Zlodiy
+* Ben Lincoln (this fork only)
 
 It is released under the terms of the GNU General Public License, version 3;
 See LICENSE file for details.
